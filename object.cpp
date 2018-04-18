@@ -32,14 +32,14 @@ void Object::remove_from(vector<Object*> &inventory) {
 }
 
 Weapon::Weapon(void) {
-    objectClass = Child::cWeapon;
+    objectClass = cWeapon;
     itemName = "Common Sword";
     damagePoints = 10;
     durabilityPoints = 10;
 }
 
 Weapon::Weapon(string itemName, float damagePoints, float durabilityPoints) {
-    objectClass = Child::cWeapon;
+    objectClass = cWeapon;
     this->itemName = itemName;
     this->damagePoints = damagePoints;
     this->durabilityPoints = durabilityPoints;
@@ -62,14 +62,14 @@ float Weapon::get_durability_points(void) {
 }
 
 Medical::Medical(void) {
-    objectClass = Child::cMedical;
+    objectClass = cMedical;
     itemName = "Bandages";
     revivePoints = 20;
     uses = 1;
 }
 
 Medical::Medical(string itemName, int uses, float revivePoints) {
-    objectClass = Child::cMedical;
+    objectClass = cMedical;
     this->itemName = itemName;
     this->revivePoints = revivePoints;
     this->uses = uses;
@@ -106,17 +106,17 @@ void Medical::use(Player* P1) {
 
 Utility::Utility(void) {
     itemName = "";
-    objectClass = Child::cUtility;
+    objectClass = cUtility;
 }
 
 Utility::Utility(string itemName) {
     this->itemName = itemName;
-    objectClass = Child::cUtility;
+    objectClass = cUtility;
 }
 
 Light::Light(void) {
     lightOn = 0;
-    objectClass = Child::cLight;
+    objectClass = cLight;
 }
 
 void Light::turn_on(void) {
