@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <vector>
-#include <cstdlib>
 #include "point.h"
 #include "object.h"
 #include "enemy.h"
