@@ -67,6 +67,13 @@ Object tempObject;
             }else {
                 cout << "You do not have that weapon" << endl;
             }
+        }else if(contains(command, "use")){
+            for(int i = 0; i < P1.get_inventory().size(); i++) {
+                if(P1.get_inventory().at(i)->get_class() == cMedical && contains(command, to_lower(P1.get_inventory().at(i)->get_name()))) {
+                    static_cast<Medical*>(P1.get_inventory().at(i))->use(&P1);
+                    cout << "You used " << P1.get_inventory().at(i)->get_name() << endl;
+                }
+            }
         }else {
             cout << "I'm not sure what you mean, type 'help' for directions." << endl;
         }

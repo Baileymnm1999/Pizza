@@ -16,7 +16,7 @@ Map::Map(void) {
     objectGrid[3][2].push_back(m1);
     objectGrid[1][4].push_back(a1);
 
-    Enemy* e1 = new Enemy(Jawa);
+    Enemy* e1 = new Enemy(Guard);
     Enemy* e2 = new Enemy(Fly);
     enemyGrid[4][4].push_back(e1);
     enemyGrid[2][5].push_back(e2);
