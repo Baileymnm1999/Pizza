@@ -44,4 +44,6 @@ void show_help(void);
 
 void show_map(void);
 
+void piss_off_enemys_here(void);
+
 #endif

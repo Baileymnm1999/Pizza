@@ -116,9 +116,9 @@ void see_obstacles_here(void) {
 void see_enemies_here(void) {
     vector<Enemy*> enemiesHere = GAMEMAP.get_enemies(P1.get_position().getX(), P1.get_position().getY());
     for(int i = 0; i < enemiesHere.size(); i++) {
-        cout << "Thre is a " << enemiesHere.at(i)->get_type() << " here. He appears ";
+        cout << "There is a " << enemiesHere.at(i)->get_type() << " here. They appear ";
         if(!(enemiesHere.at(i)->is_hostile())) {cout << "not ";}
-        cout << "hostile" << endl;
+        cout << "hostile. Their health is " << enemiesHere.at(i)->get_health() << endl;
     }
 }
 
@@ -261,4 +261,14 @@ void show_map(void) {
     cout << "01████████████████████████████████████████" << endl;
     cout << "  0102030405060708091011121314151617181920" << endl;
     cout << "Your coords: " << P1.get_position() << endl;
+}
+
+void piss_off_enemys_here(void) {
+    for(int i = 0; i < GAMEMAP.get_enemies(P1.get_position().getX(), P1.get_position().getY()).size(); i++) {
+        if(P1.get_luck() < rand() % 10 && GAMEMAP.get_enemies(P1.get_position().getX(), P1.get_position().getY()).at(i)->is_hostile() && GAMEMAP.get_enemies(P1.get_position().getX(), P1.get_position().getY()).at(i)->get_health() >= 0.1) {
+            GAMEMAP.get_enemies(P1.get_position().getX(), P1.get_position().getY()).at(i)->attack(&P1);
+        }else if(GAMEMAP.get_enemies(P1.get_position().getX(), P1.get_position().getY()).at(i)->get_health() < 0.1) {
+            GAMEMAP.kill_enemy(P1.get_position().getX(), P1.get_position().getY(), GAMEMAP.get_enemies(P1.get_position().getX(), P1.get_position().getY()).at(i));
+        }
+    }
 }

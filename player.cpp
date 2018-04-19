@@ -191,6 +191,7 @@ void Player::attack(Enemy* enemyToAttack, Weapon* weaponToUse) {
                 cout << "The " << enemyToAttack->get_type() << " did not notice you..." << endl;
             }
         }
+        cout << "The " << enemyToAttack->get_type() << " has " << enemyToAttack->get_health() << " health" << endl;
     }else {
         //cout << "You do not have a " << weaponToUse->get_name() << endl;
     }

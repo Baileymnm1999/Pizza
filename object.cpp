@@ -22,13 +22,11 @@ Child Object::get_class(void) {
 
 void Object::remove_from(vector<Object*> &inventory) {
     for(int i = 0; i < inventory.size(); i++) {
-        if(inventory.at(i) = this){
+        if(inventory.at(i) == this){
             inventory.erase(inventory.begin() + i);
-            delete this;
+            //delete this;
         }
     }
-    // inventory.erase(inventory.begin() + (this - &inventory.at(0)));
-    // delete this;
 }
 
 Weapon::Weapon(void) {
