@@ -50,8 +50,10 @@ void get_object_here(string objectToGet) {
         for(int i = 0; i < itemsHere.size(); i++) {
             if(contains(objectToGet, to_lower(itemsHere.at(i)->get_name()))) {
                 P1.add_to_inventory(itemsHere.at(i));
-                GAMEMAP.delete_object(P1.get_position().getX(), P1.get_position().getY(), itemsHere.at(i)->get_name());
-                cout << "You took the " << itemsHere.at(i)->get_name() << endl;
+                if(P1.search_inventory(itemsHere.at(i)->get_class(), itemsHere.at(i)->get_name())) {
+                    GAMEMAP.delete_object(P1.get_position().getX(), P1.get_position().getY(), itemsHere.at(i)->get_name());
+                    cout << "You took the " << itemsHere.at(i)->get_name() << endl;
+                }
             }else {
                 cout << "That is not an object here." << endl;
             }
@@ -165,13 +167,51 @@ void move(string moveCommand) {
         bool blocked = 0;
         structuresHere = GAMEMAP.get_structures(P1.get_position().getX(), P1.get_position().getY() + 1);
         for(int i = 0; i < structuresHere.size(); i++) {
-            if(structuresHere.at(i)->get_class() == cWall){
+            if(structuresHere.at(i)->get_class() == cWall) {
                 cout << "Can't go north, a wall blocks your path." << endl;
                 blocked = 1;
-            }else if(structuresHere.at(i)->get_class() == cFoliage){
+            }else if(structuresHere.at(i)->get_class() == cFoliage) {
                 cout << "Can't go north, dense foliage blocks your path." << endl;
                 blocked = 1;
-            }else if(structuresHere.at(i)->get_class() == cAbyss){
+            }else if(structuresHere.at(i)->get_class() == cDoor) {
+                string response;
+                if(static_cast<Door*>(structuresHere.at(i))->is_open()) {
+                    cout << "You entered the room." << endl;
+                }else if(static_cast<Door*>(structuresHere.at(i))->is_locked()) {
+                    if(P1.search_inventory(cUtility, "key")) {
+                        cout << "Room is locked, use key to unlock and open?" << endl;
+                        getline(cin, response);
+                        response = to_lower(response);
+                        while(!contains(response, "y", "n")) {
+                            getline(cin, response);
+                            response = to_lower(response);
+                        }
+                        if(contains(response, "y")) {
+                            static_cast<Door*>(structuresHere.at(i))->unlock();
+                            static_cast<Door*>(structuresHere.at(i))->open();
+                        }else if(contains(response, "n")) {
+                            blocked = 1;
+                        }
+
+                    }else {
+                        blocked = 1;
+                        cout << "The door to the room is locked. You need to use a key." << endl;
+                    }
+                }else if(!(static_cast<Door*>(structuresHere.at(i))->is_open())) {
+                    cout << "Room is closed, open the door?" << endl;
+                    getline(cin, response);
+                    response = to_lower(response);
+                    while(!contains(response, "y", "n")) {
+                        getline(cin, response);
+                        response = to_lower(response);
+                    }
+                    if(contains(response, "y")) {
+                        static_cast<Door*>(structuresHere.at(i))->open();
+                    }else if(contains(response, "n")) {
+                        blocked = 1;
+                    }
+                }
+            }else if(structuresHere.at(i)->get_class() == cAbyss) {
                 if(P1.search_inventory(cUtility, "rope")) {
                     cout << "You used the rope to get across the abyss." << endl;
                     P1.go_north();
@@ -188,13 +228,51 @@ void move(string moveCommand) {
         bool blocked = 0;
         structuresHere = GAMEMAP.get_structures(P1.get_position().getX() + 1, P1.get_position().getY());
         for(int i = 0; i < structuresHere.size(); i++) {
-            if(structuresHere.at(i)->get_class() == cWall){
+            if(structuresHere.at(i)->get_class() == cWall) {
                 cout << "Can't go east, a wall blocks your path." << endl;
                 blocked = 1;
-            }else if(structuresHere.at(i)->get_class() == cFoliage){
+            }else if(structuresHere.at(i)->get_class() == cFoliage) {
                 cout << "Can't go east, dense foliage blocks your path." << endl;
                 blocked = 1;
-            }else if(structuresHere.at(i)->get_class() == cAbyss){
+            }else if(structuresHere.at(i)->get_class() == cDoor) {
+                string response;
+                if(static_cast<Door*>(structuresHere.at(i))->is_open()) {
+                    cout << "You entered the room." << endl;
+                }else if(static_cast<Door*>(structuresHere.at(i))->is_locked()) {
+                    if(P1.search_inventory(cUtility, "key")) {
+                        cout << "Room is locked, use key to unlock and open?" << endl;
+                        getline(cin, response);
+                        response = to_lower(response);
+                        while(!contains(response, "y", "n")) {
+                            getline(cin, response);
+                            response = to_lower(response);
+                        }
+                        if(contains(response, "y")) {
+                            static_cast<Door*>(structuresHere.at(i))->unlock();
+                            static_cast<Door*>(structuresHere.at(i))->open();
+                        }else if(contains(response, "n")) {
+                            blocked = 1;
+                        }
+
+                    }else {
+                        blocked = 1;
+                        cout << "The door to the room is locked. You need to use a key." << endl;
+                    }
+                }else if(!(static_cast<Door*>(structuresHere.at(i))->is_open())) {
+                    cout << "Room is closed, open the door?" << endl;
+                    getline(cin, response);
+                    response = to_lower(response);
+                    while(!contains(response, "y", "n")) {
+                        getline(cin, response);
+                        response = to_lower(response);
+                    }
+                    if(contains(response, "y")) {
+                        static_cast<Door*>(structuresHere.at(i))->open();
+                    }else if(contains(response, "n")) {
+                        blocked = 1;
+                    }
+                }
+            }else if(structuresHere.at(i)->get_class() == cAbyss) {
                 if(P1.search_inventory(cUtility, "rope")) {
                     cout << "You used the rope to get across the abyss." << endl;
                     P1.go_east();
@@ -202,7 +280,7 @@ void move(string moveCommand) {
                     cout << "Can't go east, a deep abyss blocks your path and you do not have a rope." << endl;
                     blocked = 1;
                 }
-            }else if(structuresHere.at(i)->get_class() == cHill){
+            }else if(structuresHere.at(i)->get_class() == cHill) {
                 cout << "Can't go east, a steep hill is there." << endl;
                 blocked = 1;
             }
@@ -214,13 +292,51 @@ void move(string moveCommand) {
         bool blocked = 0;
         structuresHere = GAMEMAP.get_structures(P1.get_position().getX(), P1.get_position().getY() - 1);
         for(int i = 0; i < structuresHere.size(); i++) {
-            if(structuresHere.at(i)->get_class() == cWall){
+            if(structuresHere.at(i)->get_class() == cWall) {
                 cout << "Can't go south, a wall blocks your path." << endl;
                 blocked = 1;
-            }else if(structuresHere.at(i)->get_class() == cFoliage){
+            }else if(structuresHere.at(i)->get_class() == cFoliage) {
                 cout << "Can't go south, dense foliage blocks your path." << endl;
                 blocked = 1;
-            }else if(structuresHere.at(i)->get_class() == cAbyss){
+            }else if(structuresHere.at(i)->get_class() == cDoor) {
+                string response;
+                if(static_cast<Door*>(structuresHere.at(i))->is_open()) {
+                    cout << "You entered the room." << endl;
+                }else if(static_cast<Door*>(structuresHere.at(i))->is_locked()) {
+                    if(P1.search_inventory(cUtility, "key")) {
+                        cout << "Room is locked, use key to unlock and open?" << endl;
+                        getline(cin, response);
+                        response = to_lower(response);
+                        while(!contains(response, "y", "n")) {
+                            getline(cin, response);
+                            response = to_lower(response);
+                        }
+                        if(contains(response, "y")) {
+                            static_cast<Door*>(structuresHere.at(i))->unlock();
+                            static_cast<Door*>(structuresHere.at(i))->open();
+                        }else if(contains(response, "n")) {
+                            blocked = 1;
+                        }
+
+                    }else {
+                        blocked = 1;
+                        cout << "The door to the room is locked. You need to use a key." << endl;
+                    }
+                }else if(!(static_cast<Door*>(structuresHere.at(i))->is_open())) {
+                    cout << "Room is closed, open the door?" << endl;
+                    getline(cin, response);
+                    response = to_lower(response);
+                    while(!contains(response, "y", "n")) {
+                        getline(cin, response);
+                        response = to_lower(response);
+                    }
+                    if(contains(response, "y")) {
+                        static_cast<Door*>(structuresHere.at(i))->open();
+                    }else if(contains(response, "n")) {
+                        blocked = 1;
+                    }
+                }
+            }else if(structuresHere.at(i)->get_class() == cAbyss) {
                 if(P1.search_inventory(cUtility, "rope")) {
                     cout << "You used the rope to get across the abyss." << endl;
                     P1.go_south();
@@ -240,9 +356,47 @@ void move(string moveCommand) {
             if(structuresHere.at(i)->get_class() == cWall){
                 cout << "Can't go west, a wall blocks your path." << endl;
                 blocked = 1;
-            }else if(structuresHere.at(i)->get_class() == cFoliage){
+            }else if(structuresHere.at(i)->get_class() == cFoliage) {
                 cout << "Can't go west, dense foliage blocks your path." << endl;
                 blocked = 1;
+            }else if(structuresHere.at(i)->get_class() == cDoor) {
+                string response;
+                if(static_cast<Door*>(structuresHere.at(i))->is_open()) {
+                    cout << "You entered the room." << endl;
+                }else if(static_cast<Door*>(structuresHere.at(i))->is_locked()) {
+                    if(P1.search_inventory(cUtility, "key")) {
+                        cout << "Room is locked, use key to unlock and open?" << endl;
+                        getline(cin, response);
+                        response = to_lower(response);
+                        while(!contains(response, "y", "n")) {
+                            getline(cin, response);
+                            response = to_lower(response);
+                        }
+                        if(contains(response, "y")) {
+                            static_cast<Door*>(structuresHere.at(i))->unlock();
+                            static_cast<Door*>(structuresHere.at(i))->open();
+                        }else if(contains(response, "n")) {
+                            blocked = 1;
+                        }
+
+                    }else {
+                        blocked = 1;
+                        cout << "The door to the room is locked. You need to use a key." << endl;
+                    }
+                }else if(!(static_cast<Door*>(structuresHere.at(i))->is_open())) {
+                    cout << "Room is closed, open the door?" << endl;
+                    getline(cin, response);
+                    response = to_lower(response);
+                    while(!contains(response, "y", "n")) {
+                        getline(cin, response);
+                        response = to_lower(response);
+                    }
+                    if(contains(response, "y")) {
+                        static_cast<Door*>(structuresHere.at(i))->open();
+                    }else if(contains(response, "n")) {
+                        blocked = 1;
+                    }
+                }
             }else if(structuresHere.at(i)->get_class() == cAbyss){
                 if(P1.search_inventory(cUtility, "rope")) {
                     cout << "You used the rope to get across the abyss." << endl;
@@ -251,7 +405,7 @@ void move(string moveCommand) {
                     cout << "Can't go west, a deep abyss blocks your path and you do not have a rope." << endl;
                     blocked = 1;
                 }
-            }else if(structuresHere.at(i)->get_class() == cHill){
+            }else if(structuresHere.at(i)->get_class() == cHill) {
                 cout << "You slid down the hill." << endl;
                 P1.go_west();
             }
@@ -301,7 +455,7 @@ void show_map(void) {
     cout << "03██  __  ████████████████████████████████" << endl;
     cout << "02████  ██████████████████████████████████" << endl;
     cout << "01████████████████████████████████████████" << endl;
-    cout << "  0102030405060708091011121314151617181920" << endl;
+    cout << "  01  03  05  07  09  11  13  15  17  19  " << endl;
     cout << "Your coords: " << P1.get_position() << endl;
 }
 

@@ -17,11 +17,45 @@ Object tempObject;
         command = to_lower(command);
 
         if( !(contains(command, "exit", "items", "inventory", "health", "status") || contains(command, "help"))) {
-            piss_off_enemys_here();            
+            piss_off_enemys_here();
         }
 
         if(contains(command, "go", "walk", "head")) {
-            move(command);
+            if(contains(command, "9")) {
+                for(int i = 0; i < 9; i++) {
+                    move(command);
+                }
+            }else if(contains(command, "8")) {
+                for(int i = 0; i < 8; i++) {
+                    move(command);
+                }
+            }else if(contains(command, "7")) {
+                for(int i = 0; i < 7; i++) {
+                    move(command);
+                }
+            }else if(contains(command, "6")) {
+                for(int i = 0; i < 6; i++) {
+                    move(command);
+                }
+            }else if(contains(command, "5")) {
+                for(int i = 0; i < 5; i++) {
+                    move(command);
+                }
+            }else if(contains(command, "4")) {
+                for(int i = 0; i < 4; i++) {
+                    move(command);
+                }
+            }else if(contains(command, "3")) {
+                for(int i = 0; i < 3; i++) {
+                    move(command);
+                }
+            }else if(contains(command, "2")) {
+                for(int i = 0; i < 2; i++) {
+                    move(command);
+                }
+            }else{
+                move(command);
+            }
 
         }else if(contains(command, "kill") && contains(command, "self", "myself", "yourself")) {
             alive = try_suicide(command);
