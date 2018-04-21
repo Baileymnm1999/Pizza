@@ -22,6 +22,10 @@ Abyss::Abyss(void) {
     structureType = cAbyss;
 }
 
+Hill::Hill(void) {
+    structureType = cHill;
+}
+
 Gate::Gate(void) {
     isOpen = 0;
     side = North;

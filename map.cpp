@@ -46,6 +46,7 @@ Map::Map(void) {
     Wall* w1 = new Wall;
     Foliage* f1 = new Foliage;
     Abyss* h1 = new Abyss;
+    Hill* h2 = new Hill;
 
     structureGrid[0][4].push_back(w1);
     structureGrid[1][3].push_back(w1);
@@ -73,6 +74,10 @@ Map::Map(void) {
     structureGrid[5][6].push_back(w1);
     structureGrid[5][7].push_back(w1);
     structureGrid[5][8].push_back(f1);
+    structureGrid[5][9].push_back(h2);
+    structureGrid[5][10].push_back(h2);
+    structureGrid[5][11].push_back(h2);
+    structureGrid[5][12].push_back(h2);
     structureGrid[5][13].push_back(f1);
     structureGrid[5][14].push_back(w1);
     structureGrid[5][15].push_back(w1);

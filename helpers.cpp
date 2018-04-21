@@ -109,6 +109,8 @@ void see_obstacles_here(void) {
                     cout << "There is dense foliage " << direction << endl;
                 }else if(structuresHere.at(i)->get_class() == cAbyss){
                     cout << "There is a deep abyss " << direction << " You need a rope to get across." << endl;
+                }else if(structuresHere.at(i)->get_class() == cHill){
+                    cout << "There is a hill " << direction << " It slopes up from the west and cannot be climbed up. It can be slid down from the east." << endl;
                 }
             }
         }
@@ -200,6 +202,9 @@ void move(string moveCommand) {
                     cout << "Can't go east, a deep abyss blocks your path and you do not have a rope." << endl;
                     blocked = 1;
                 }
+            }else if(structuresHere.at(i)->get_class() == cHill){
+                cout << "Can't go east, a steep hill is there." << endl;
+                blocked = 1;
             }
         }
         if(!blocked) {
@@ -246,6 +251,9 @@ void move(string moveCommand) {
                     cout << "Can't go west, a deep abyss blocks your path and you do not have a rope." << endl;
                     blocked = 1;
                 }
+            }else if(structuresHere.at(i)->get_class() == cHill){
+                cout << "You slid down the hill." << endl;
+                P1.go_west();
             }
         }
         if(!blocked) {

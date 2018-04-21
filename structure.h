@@ -42,6 +42,14 @@ class Abyss : public Structure {
         Abyss(void);
 };
 
+class Hill : public Structure {
+    private:
+
+    public:
+        // Constructors
+        Hill(void);
+};
+
 class Gate : public Structure {
     private:
         Direction side;

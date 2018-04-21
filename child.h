@@ -5,7 +5,7 @@
 
 enum Child { Nothing, cWeapon, cMedical, cUtility, cLight };
 
-enum StructType { None, cWall, cDoor, cFoliage, cAbyss, cGate };
+enum StructType { None, cWall, cDoor, cFoliage, cAbyss, cHill, cGate };
 
 enum EnemyType { Jawa, Guard, Zombie, Fly};
 
