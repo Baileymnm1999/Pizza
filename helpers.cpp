@@ -107,6 +107,8 @@ void see_obstacles_here(void) {
                     cout << "There is a wall " << direction << endl;
                 }else if(structuresHere.at(i)->get_class() == cFoliage){
                     cout << "There is dense foliage " << direction << endl;
+                }else if(structuresHere.at(i)->get_class() == cAbyss){
+                    cout << "There is a deep abyss " << direction << " You need a rope to get across." << endl;
                 }
             }
         }
@@ -167,6 +169,14 @@ void move(string moveCommand) {
             }else if(structuresHere.at(i)->get_class() == cFoliage){
                 cout << "Can't go north, dense foliage blocks your path." << endl;
                 blocked = 1;
+            }else if(structuresHere.at(i)->get_class() == cAbyss){
+                if(P1.search_inventory(cUtility, "rope")) {
+                    cout << "You used the rope to get across the abyss." << endl;
+                    P1.go_north();
+                }else {
+                    cout << "Can't go north, a deep abyss blocks your path and you do not have a rope." << endl;
+                    blocked = 1;
+                }
             }
         }
         if(!blocked) {
@@ -182,6 +192,14 @@ void move(string moveCommand) {
             }else if(structuresHere.at(i)->get_class() == cFoliage){
                 cout << "Can't go east, dense foliage blocks your path." << endl;
                 blocked = 1;
+            }else if(structuresHere.at(i)->get_class() == cAbyss){
+                if(P1.search_inventory(cUtility, "rope")) {
+                    cout << "You used the rope to get across the abyss." << endl;
+                    P1.go_east();
+                }else {
+                    cout << "Can't go east, a deep abyss blocks your path and you do not have a rope." << endl;
+                    blocked = 1;
+                }
             }
         }
         if(!blocked) {
@@ -197,6 +215,14 @@ void move(string moveCommand) {
             }else if(structuresHere.at(i)->get_class() == cFoliage){
                 cout << "Can't go south, dense foliage blocks your path." << endl;
                 blocked = 1;
+            }else if(structuresHere.at(i)->get_class() == cAbyss){
+                if(P1.search_inventory(cUtility, "rope")) {
+                    cout << "You used the rope to get across the abyss." << endl;
+                    P1.go_south();
+                }else {
+                    cout << "Can't go south, a deep abyss blocks your path and you do not have a rope." << endl;
+                    blocked = 1;
+                }
             }
         }
         if(!blocked) {
@@ -212,6 +238,14 @@ void move(string moveCommand) {
             }else if(structuresHere.at(i)->get_class() == cFoliage){
                 cout << "Can't go west, dense foliage blocks your path." << endl;
                 blocked = 1;
+            }else if(structuresHere.at(i)->get_class() == cAbyss){
+                if(P1.search_inventory(cUtility, "rope")) {
+                    cout << "You used the rope to get across the abyss." << endl;
+                    P1.go_west();
+                }else {
+                    cout << "Can't go west, a deep abyss blocks your path and you do not have a rope." << endl;
+                    blocked = 1;
+                }
             }
         }
         if(!blocked) {

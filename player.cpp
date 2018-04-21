@@ -58,6 +58,11 @@ int Player::get_agility(void) {
 }
 
 int Player::get_luck(void) {
+    for(int i = 0; i < inventory.size(); i++) {
+        if(contains(to_lower(inventory.at(i)->get_name()), "leprechaun")) {
+            return luck + 3;
+        }
+    }
     return luck;
 }
 

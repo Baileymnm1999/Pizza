@@ -2,27 +2,51 @@
 using namespace std;
 
 Map::Map(void) {
+
+    // OBJECTS
     Utility* u1 = new Utility;
     u1->set_name("map");
+
+    Utility* u2 = new Utility;
+    u2->set_name("leprechaun [+3 Luck]");
+
+    Utility* u3 = new Utility;
+    u3->set_name("rope");
+
     Weapon* a1 = new Weapon;
     a1->set_name("sword");
     a1->set_damage_points(2);
     a1->set_durability_points(10);
+
+    Weapon* a2 = new Weapon;
+    a2->set_name("ar-15");
+    a2->set_damage_points(50);
+
     Medical* m1 = new Medical;
-    m1->set_name("Potion of Healing");
+    m1->set_name("Potion");
     m1->set_revive_points(50);
     m1->set_uses(1);
+
     objectGrid[3][5].push_back(u1);
+    objectGrid[2][3].push_back(u2);
     objectGrid[3][2].push_back(m1);
     objectGrid[1][4].push_back(a1);
+    objectGrid[7][5].push_back(u3);
 
-    Enemy* e1 = new Enemy(Guard);
+    // ENEMIES
+    Enemy* e1 = new Enemy(Jawa);
+    e1->add_item(a2);
+
     Enemy* e2 = new Enemy(Fly);
-    enemyGrid[4][4].push_back(e1);
+
+    enemyGrid[2][4].push_back(e1);
     enemyGrid[2][5].push_back(e2);
 
+    // STRUCTURES
     Wall* w1 = new Wall;
     Foliage* f1 = new Foliage;
+    Abyss* h1 = new Abyss;
+
     structureGrid[0][4].push_back(w1);
     structureGrid[1][3].push_back(w1);
     structureGrid[1][5].push_back(w1);
@@ -62,6 +86,7 @@ Map::Map(void) {
     structureGrid[7][8].push_back(f1);
     structureGrid[7][13].push_back(f1);
     structureGrid[8][4].push_back(f1);
+    structureGrid[8][5].push_back(h1);
     structureGrid[8][6].push_back(f1);
     structureGrid[8][9].push_back(w1);
     structureGrid[8][11].push_back(w1);
@@ -136,6 +161,10 @@ void Map::delete_object(int x, int y, string itemName) {
 void Map::kill_enemy(int x, int y, Enemy* enemyToKill) {
     for(int i = 0; i < enemyGrid[x][y].size(); i++) {
         if(enemyGrid[x][y].at(i) == enemyToKill && enemyGrid[x][y].at(i)->get_health() < 0.1) {
+            for(int i = 0; i < enemyToKill->get_inventory().size(); i++) {
+                objectGrid[x][y].push_back(enemyToKill->get_inventory().at(i));
+                cout << "The " << enemyToKill->get_type() << " dropped a " << enemyToKill->get_inventory().at(i)->get_name() << endl;
+            }
             enemyGrid[x][y].erase(enemyGrid[x][y].begin() + i);
             delete enemyToKill;
             cout << "The " << enemyToKill->get_type() << " died" << endl;

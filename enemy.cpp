@@ -48,6 +48,14 @@ void Enemy::set_hostile(bool hostile) {
     this->hostile = hostile;
 }
 
+void Enemy::set_inventory(vector<Object*> inventory) {
+    this->inventory = inventory;
+}
+
+void Enemy::add_item(Object* item) {
+    inventory.push_back(item);
+}
+
 float Enemy::get_health(void) {
     return health;
 }
@@ -58,6 +66,10 @@ EnemyType Enemy::get_type(void) {
 
 float Enemy::get_damage_points(void) {
     return damagePoints;
+}
+
+vector<Object*> Enemy::get_inventory(void) {
+    return inventory;
 }
 
 bool Enemy::is_hostile(void) {
