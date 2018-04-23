@@ -120,6 +120,13 @@ Object tempObject;
             cout << "I'm not sure what you mean, type 'help' for directions." << endl;
         }
 
+        if(P1.get_position().getX() == 17 && P1.get_position().getY() == 11) {
+            cout << "Expecting Jenay you leave the checkpoint to the south and find Rick Astley" << endl;
+            cout << endl << "YOU WIN" << endl;
+            return 0;
+        }
+
+
         cout << endl << ">";
     }
 

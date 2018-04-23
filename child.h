@@ -13,4 +13,6 @@ enum Direction { North, East, South, West};
 
 std::ostream& operator<<(std::ostream& out, const EnemyType value);
 
+std::ostream& operator<<(std::ostream& out, const Child value);
+
 #endif

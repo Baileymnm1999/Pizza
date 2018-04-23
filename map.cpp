@@ -3,6 +3,26 @@ using namespace std;
 
 Map::Map(void) {
 
+    // PROMPTS
+    prompts[2][9] = "This is the forest of suicide... Many have taken their lives here.";
+    prompts[2][10] = "This is the forest of suicide... Many have taken their lives here.";
+    prompts[2][11] = "This is the forest of suicide... Many have taken their lives here\nThere is a dead guy here. He seems to have take his life.";
+    prompts[2][12] = "This is the forest of suicide... Many have taken their lives here.";
+    prompts[3][9] = "This is the forest of suicide... Many have taken their lives here.";
+    prompts[3][10] = "This is the forest of suicide... Many have taken their lives here.";
+    prompts[3][11] = "This is the forest of suicide... Many have taken their lives here.";
+    prompts[3][12] = "This is the forest of suicide... Many have taken their lives here.";
+    prompts[4][12] = "North of you is a tunnel, no telling what hides on the other end";
+    prompts[9][10] = "You are in a creepy ass hallway.";
+    prompts[10][10] = "You are in a creepy ass hallway.";
+    prompts[11][10] = "You are in a creepy ass hallway.";
+    prompts[12][10] = "You are in a creepy ass hallway.";
+    prompts[13][10] = "You are in a creepy ass hallway.";
+    prompts[14][10] = "You are in a creepy ass hallway.";
+    prompts[15][10] = "You are in a creepy ass hallway.";
+    prompts[13][6] = "This room is covered in blood, smells of menstrual fluid...";
+    prompts[13][5] = "This is the town center. The rooms hide many secrets.";
+
     // OBJECTS
     Utility* u1 = new Utility;
     u1->set_name("map");
@@ -16,34 +36,76 @@ Map::Map(void) {
     Utility* u4 = new Utility;
     u4->set_name("key");
 
+    Utility* u5 = new Utility;
+    u5->set_name("Guard Uniform");
+
+    Utility* u6 = new Utility;
+    u6->set_name("Playboy Volume 4 Edition 2");
+
     Weapon* a1 = new Weapon;
     a1->set_name("sword");
-    a1->set_damage_points(2);
-    a1->set_durability_points(10);
+    a1->set_damage_points(5);
 
     Weapon* a2 = new Weapon;
-    a2->set_name("ar-15");
-    a2->set_damage_points(50);
+    a2->set_name("Glock 19");
+    a2->set_damage_points(30);
+
+    Weapon* a3 = new Weapon;
+    a3->set_name("Dildo");
+    a3->set_damage_points(50);
+
+    Weapon* a4 = new Weapon;
+    a4->set_name("sick diss");
+    a4->set_damage_points(75);
 
     Medical* m1 = new Medical;
     m1->set_name("Potion");
     m1->set_revive_points(50);
     m1->set_uses(1);
 
+    Medical* m2 = new Medical;
+    m2->set_name("Bandages");
+    m2->set_revive_points(20);
+    m2->set_uses(5);
+
+    Medical* m3 = new Medical;
+    m3->set_name("Ointment");
+    m3->set_revive_points(30);
+    m3->set_uses(2);
+
     objectGrid[3][5].push_back(u1);
-    objectGrid[4][16].push_back(u4);
-    objectGrid[3][2].push_back(m1);
-    objectGrid[1][4].push_back(a1);
+    objectGrid[11][6].push_back(u2);
     objectGrid[2][11].push_back(u3);
+    objectGrid[4][16].push_back(u4);
+    objectGrid[2][11].push_back(u5);
+    objectGrid[1][4].push_back(a1);
+    objectGrid[2][11].push_back(a2);
+    objectGrid[15][6].push_back(a3);
+    objectGrid[3][2].push_back(m1);
+    objectGrid[11][4].push_back(m2);
 
     // ENEMIES
     Enemy* e1 = new Enemy(Jawa);
-    e1->add_item(a2);
+    e1->add_item(u6);
 
     Enemy* e2 = new Enemy(Fly);
 
+    Enemy* e3 = new Enemy(Zombie);
+
+    Enemy* e4 = new Enemy(Guard);
+    e4->set_health(100);
+
+    Enemy* e5 = new Enemy(Jawa);
+    e5->set_damage_points(20);
+    e5->add_item(a4);
+    e5->add_item(m3);
+
+
     enemyGrid[2][4].push_back(e1);
-    enemyGrid[2][5].push_back(e2);
+    enemyGrid[12][10].push_back(e2);
+    enemyGrid[(rand() % 2) + 2][(rand() % 4) + 9].push_back(e3);
+    enemyGrid[17][10].push_back(e4);
+    enemyGrid[15][4].push_back(e5);
 
     // STRUCTURES
     Wall* w1 = new Wall;
@@ -189,6 +251,10 @@ vector<Structure*> Map::get_structures(int x, int y) {
 
 vector<Enemy*> Map::get_enemies(int x, int y) {
     return enemyGrid[x][y];
+}
+
+string Map::get_prompt(int x, int y) {
+    return prompts[x][y];
 }
 
 void Map::delete_object(int x, int y, string itemName) {

@@ -18,13 +18,13 @@ Enemy::Enemy(EnemyType thisEnemy) {
 
         case Guard:
             health = 50;
-            damagePoints = 50;
+            damagePoints = 30;
             hostile = 1;
             break;
 
         case Zombie:
             health = 20;
-            damagePoints = 50;
+            damagePoints = 20;
             hostile = 1;
             break;
 
@@ -77,14 +77,16 @@ bool Enemy::is_hostile(void) {
 }
 
 void Enemy::attack(Player* dumbAss) {
-    if(dumbAss->get_luck() < rand() % 10){
-        float newHealth = dumbAss->get_health() - damagePoints;
-        dumbAss->set_health(newHealth);
-        cout << "The " << thisEnemy << " attacked you and did " << damagePoints << " points of damage :/" << endl;
-    }else {
-        cout << "The " << thisEnemy << " tried to attack you but luckily, for you, they slipped on your ego" << endl;
-    }
-    if(dumbAss->get_health() <= 0) {
-        alive = 0;
+    if(!(thisEnemy == Guard && dumbAss->search_inventory(cUtility, "Guard Uniform"))) {
+        if(dumbAss->get_luck() < rand() % 10){
+            float newHealth = dumbAss->get_health() - damagePoints;
+            dumbAss->set_health(newHealth);
+            cout << "The " << thisEnemy << " attacked you and did " << damagePoints << " points of damage :/" << endl;
+        }else {
+            cout << "The " << thisEnemy << " tried to attack you but luckily, for you, they slipped on your ego" << endl;
+        }
+        if(dumbAss->get_health() <= 0) {
+            alive = 0;
+        }
     }
 }

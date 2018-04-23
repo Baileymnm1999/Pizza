@@ -132,11 +132,15 @@ void see_objects_here(void) {
     vector<Object*> itemsHere = GAMEMAP.get_objects(P1.get_position().getX(), P1.get_position().getY());
     if(itemsHere.size() != 0) {
         for(int i = 0; i < itemsHere.size(); i++) {
-            cout << "There is a " << itemsHere.at(i)->get_name() << " here." << endl;
+            cout << "There is a " << itemsHere.at(i)->get_name() << " [" << itemsHere.at(i)->get_class() << "]" << " here." << endl;
         }
     }
     see_obstacles_here();
     see_enemies_here();
+}
+
+void get_prompt(void) {
+    cout << GAMEMAP.get_prompt(P1.get_position().getX(), P1.get_position().getY()) << endl;
 }
 
 bool try_suicide(string command) {
@@ -217,6 +221,14 @@ void move(string moveCommand) {
                     P1.go_north();
                 }else {
                     cout << "Can't go north, a deep abyss blocks your path and you do not have a rope." << endl;
+                    blocked = 1;
+                }
+            }else if(structuresHere.at(i)->get_class() == cGate) {
+                if(P1.search_inventory(cUtility, "Guard Uniform")) {
+                    cout << "You used your guard uniform to sneak past the checkpoint to the north." << endl;
+                    P1.go_north();
+                }else if(GAMEMAP.get_enemies(P1.get_position().getX(), P1.get_position().getY()).size() != 0) {
+                    cout << "Can't go north, there is an enemy guarding the checkpoint to the north, kill them or find a way to sneak by." << endl;
                     blocked = 1;
                 }
             }
@@ -414,7 +426,7 @@ void move(string moveCommand) {
             P1.go_west();
         }
     }
-
+    get_prompt();
     see_objects_here();
 }
 
